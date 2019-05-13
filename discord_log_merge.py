@@ -74,5 +74,17 @@ def import_head(input_dir: str) -> str:
     return result_data
 
 
+def merge_header_and_chatdata(header: str, chatdata: list) -> str:
+    result_data = header
+
+    for data in chatdata:
+        channel_name = data[2]
+        result_data += f'<div class="{channel_name}">\n"'
+        result_data += str(data[1])
+        result_data += '\n</div>\n'
+
+    print(result_data)
+
+
 if __name__ == '__main__':
     main()
