@@ -1,0 +1,4 @@
+venv/
+.idea
+html_logs
+.mypy_cache
