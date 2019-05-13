@@ -8,18 +8,15 @@ def main():
     # テンプレートファイルからヘッダー部分を読み込み
     result_data = import_head(input_dir)
 
+    chat_data = []
     for root, dirs, files in os.walk(work_dir):
-
         for f in files:
             # ファイル名からチャンネル名を抜き取り
             channel_name = cut_out_channel_name(f)
 
             file_path = work_dir + os.sep + f
-
-            chat_data = []
-
             # 各ファイルを読み込み
-            chat_log_merge(file_path, channel_name)
+            chat_data.append(chat_log_merge(file_path, channel_name))
 
 
 def cut_out_channel_name(file_name: str):
@@ -57,6 +54,8 @@ def chat_log_merge(file_path: str, channel_name: str):
     # タイムスタンプ、チャット内容、チャンネル名をそれぞれリストに格納
     for chat_text, chat_timestamp in zip(chat_text_list, chat_timestamp_list):
         chat_data.append([chat_timestamp.string, chat_text, channel_name])
+
+    return chat_data
 
 
 def import_head(input_dir: str) -> str:
