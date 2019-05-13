@@ -11,7 +11,9 @@ def main():
             # ファイル名からチャンネル名を抜き取り
             channel_name = cut_out_channel_name(f)
 
-            print(channel_name)
+            file_path = work_dir + os.sep + f
+
+            file_reading(file_path)
 
 
 def cut_out_channel_name(file_name: str):
@@ -31,6 +33,21 @@ def cut_out_channel_name(file_name: str):
         channel_name = result.group(1)
 
     return channel_name
+
+
+def file_reading(file_path: str):
+    from bs4 import BeautifulSoup
+
+    chat_data = []
+
+    # ファイル読み込み
+    with open(file_path, encoding='utf-8') as f:
+        html = f.read()
+        soup = BeautifulSoup(html, 'html.parser')
+
+    chat_text = soup.find_all('div', class_='chatlog__message-group')[0]
+    chat_timestamp = soup.find_all(
+        'span', class_='chatlog__timestamp')[0].string
 
 
 if __name__ == '__main__':
