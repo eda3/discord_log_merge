@@ -16,7 +16,12 @@ def main():
 
             file_path = work_dir + os.sep + f
             # 各ファイルを読み込み
-            chat_data.append(chat_log_merge(file_path, channel_name))
+            chat_data += chat_log_merge(file_path, channel_name)
+
+    sorted(chat_data, key=lambda x: x[0])
+
+    # headerファイルとDiscordチャットログを合わせる
+    merge_header_and_chatdata(result_data, chat_data)
 
 
 def cut_out_channel_name(file_name: str):
