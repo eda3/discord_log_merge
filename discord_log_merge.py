@@ -2,7 +2,7 @@ import os
 
 
 def main():
-    work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs"
+    work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs\debug"
 
     for root, dirs, files in os.walk(work_dir):
 
