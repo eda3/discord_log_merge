@@ -5,6 +5,9 @@ def main():
     work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs\debug"
     input_dir = r"D:\Dropbox\Documents\Discord_log_merge"
 
+    # テンプレートファイルからヘッダー部分を読み込み
+    result_data = import_head(input_dir)
+
     for root, dirs, files in os.walk(work_dir):
 
         for f in files:
@@ -17,9 +20,6 @@ def main():
 
             # 各ファイルを読み込み
             chat_log_merge(file_path, channel_name)
-
-            # テンプレートファイルからヘッダー部分を読み込み
-            import_head(input_dir)
 
 
 def cut_out_channel_name(file_name: str):
