@@ -3,10 +3,10 @@ import os
 
 def main():
     work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs\debug"
+    input_dir = r"D:\Dropbox\Documents\Discord_log_merge"
 
     for root, dirs, files in os.walk(work_dir):
 
-        print('files', files)
         for f in files:
             # ファイル名からチャンネル名を抜き取り
             channel_name = cut_out_channel_name(f)
@@ -17,6 +17,9 @@ def main():
 
             # 各ファイルを読み込み
             chat_log_merge(file_path, channel_name)
+
+            # テンプレートファイルからヘッダー部分を読み込み
+            import_head(input_dir)
 
 
 def cut_out_channel_name(file_name: str):
@@ -40,7 +43,6 @@ def cut_out_channel_name(file_name: str):
 
 def chat_log_merge(file_path: str, channel_name: str):
     from bs4 import BeautifulSoup
-    import pprint
 
     chat_data = []
 
@@ -56,8 +58,15 @@ def chat_log_merge(file_path: str, channel_name: str):
     for chat_text, chat_timestamp in zip(chat_text_list, chat_timestamp_list):
         chat_data.append([chat_timestamp.string, chat_text, channel_name])
 
-    print('print')
-    pprint.pprint(chat_data[0])
+
+def import_head(input_dir: str) -> str:
+    header_file_name = 'template_head.html'
+    header_file_path = input_dir + os.sep + header_file_name
+
+    with open(header_file_path, encoding='utf-8') as f:
+        result_data = f.read()
+
+    return result_data
 
 
 if __name__ == '__main__':
