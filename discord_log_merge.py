@@ -7,7 +7,7 @@ def main():
     input_dir = r"D:\Dropbox\Documents\Discord_log_merge"
 
     # テンプレートファイルからヘッダー部分を読み込み
-    result_data = import_head(input_dir)
+    header_data = import_head(input_dir)
 
     chat_data = []
     for root, dirs, files in os.walk(work_dir):
@@ -19,7 +19,8 @@ def main():
             # 各ファイルを読み込み
             chat_data += chat_log_merge(file_path, channel_name)
 
-    sorted(chat_data, key=lambda x: x[0])
+    # 時系列順に並び替え
+    chat_data.sort(key=lambda x: x[0])
 
     # headerファイルとDiscordチャットログを合わせる
     merge_header_and_chatdata(result_data, chat_data)
@@ -46,6 +47,7 @@ def cut_out_channel_name(file_name: str):
 
 def chat_log_merge(file_path: str, channel_name: str):
     from bs4 import BeautifulSoup
+    import datetime
 
     chat_data = []
 
@@ -57,9 +59,16 @@ def chat_log_merge(file_path: str, channel_name: str):
     chat_text_list = soup.find_all('div', class_='chatlog__message-group')
     chat_timestamp_list = soup.find_all('span', class_='chatlog__timestamp')
 
+    # 並び替えのため、タイムスタンプを変更
+    for i, timestamp in enumerate(chat_timestamp_list):
+        data = timestamp.string
+        dte = datetime.datetime.strptime(data, '%y-%b-%d %p %I:%M')
+        change_timestamp = dte.strftime('%Y-%m-%d %H:%M')
+        chat_timestamp_list[i] = change_timestamp
+
     # タイムスタンプ、チャット内容、チャンネル名をそれぞれリストに格納
     for chat_text, chat_timestamp in zip(chat_text_list, chat_timestamp_list):
-        chat_data.append([chat_timestamp.string, chat_text, channel_name])
+        chat_data.append([chat_timestamp, chat_text, channel_name])
 
     return chat_data
 
