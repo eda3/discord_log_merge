@@ -5,6 +5,7 @@ import pprint
 def main():
     work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs\debug"
     input_dir = r"D:\Dropbox\Documents\Discord_log_merge"
+    output_dir = r"D:\Dropbox\Documents\Discord_log_merge"
 
     # テンプレートファイルからヘッダー部分を読み込み
     header_data = import_head(input_dir)
