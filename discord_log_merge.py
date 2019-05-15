@@ -24,7 +24,12 @@ def main():
     chat_data.sort(key=lambda x: x[0])
 
     # headerファイルとDiscordチャットログを合わせる
-    merge_header_and_chatdata(result_data, chat_data)
+    result_data = merge_header_and_chatdata(header_data, chat_data)
+
+    # 結合データをhtmlファイルとして出力
+    output_path = output_dir + os.sep + 'output.html'
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(str(result_data))
 
 
 def cut_out_channel_name(file_name: str):
