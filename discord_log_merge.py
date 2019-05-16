@@ -1,11 +1,15 @@
 import os
-import pprint
+import sys
+import pathlib
+from bs4 import BeautifulSoup
 
 
 def main():
-    work_dir = r"D:\Dropbox\Documents\Discord_log_merge\html_logs\debug"
-    input_dir = r"D:\Dropbox\Documents\Discord_log_merge"
-    output_dir = r"D:\Dropbox\Documents\Discord_log_merge"
+
+    current_dir = pathlib.Path().cwd()
+    work_dir = current_dir / 'html_logs'
+    input_dir = current_dir
+    output_dir = current_dir
 
     # テンプレートファイルからヘッダー部分を読み込み
     header_data = import_head(input_dir)
@@ -16,7 +20,7 @@ def main():
             # ファイル名からチャンネル名を抜き取り
             channel_name = cut_out_channel_name(f)
 
-            file_path = work_dir + os.sep + f
+            file_path = work_dir / f
             # 各ファイルを読み込み
             chat_data += chat_log_merge(file_path, channel_name)
 
@@ -27,7 +31,7 @@ def main():
     result_data = merge_header_and_chatdata(header_data, chat_data)
 
     # 結合データをhtmlファイルとして出力
-    output_path = output_dir + os.sep + 'output.html'
+    output_path = output_dir / 'output.html'
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(str(result_data))
 
@@ -81,7 +85,7 @@ def chat_log_merge(file_path: str, channel_name: str):
 
 def import_head(input_dir: str) -> str:
     header_file_name = 'template_head.html'
-    header_file_path = input_dir + os.sep + header_file_name
+    header_file_path = input_dir / header_file_name
 
     with open(header_file_path, encoding='utf-8') as f:
         result_data = f.read()
