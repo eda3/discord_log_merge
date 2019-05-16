@@ -1,15 +1,15 @@
 import os
 import sys
-import pathlib
-from bs4 import BeautifulSoup
+from pathlib import Path
+
 
 
 def main():
 
-    current_dir = pathlib.Path().cwd()
-    work_dir = current_dir / 'html_logs'
-    input_dir = current_dir
-    output_dir = current_dir
+    current_dir: Path = Path().cwd()
+    work_dir: Path = current_dir / 'html_logs'
+    input_dir: Path = current_dir
+    output_dir: Path = current_dir
 
     # テンプレートファイルからヘッダー部分を読み込み
     header_data = import_head(input_dir)
@@ -31,8 +31,8 @@ def main():
     result_data = merge_header_and_chatdata(header_data, chat_data)
 
     # 結合データをhtmlファイルとして出力
-    output_path = output_dir / 'output.html'
-    with open(output_path, 'w', encoding='utf-8') as f:
+    output_path:Path = output_dir / 'output.html'
+    with output_path.open(mode='w') as f:
         f.write(str(result_data))
 
 
@@ -83,11 +83,11 @@ def chat_log_merge(file_path: str, channel_name: str):
     return chat_data
 
 
-def import_head(input_dir: str) -> str:
+def import_head(input_dir: Path) -> str:
     header_file_name = 'template_head.html'
-    header_file_path = input_dir / header_file_name
+    header_file_path:Path = input_dir / header_file_name
 
-    with open(header_file_path, encoding='utf-8') as f:
+    with header_file_path.open() as f:
         result_data = f.read()
 
     return result_data
