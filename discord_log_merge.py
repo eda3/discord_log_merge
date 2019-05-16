@@ -1,14 +1,15 @@
 import os
 import sys
 from pathlib import Path
+from pathlib import PosixPath
 
 
 def main():
 
-    current_dir: Path = Path().cwd()
-    work_dir: Path = current_dir / 'html_logs'
-    input_dir: Path = current_dir
-    output_dir: Path = current_dir
+    current_dir: PosixPath = Path().cwd()
+    work_dir = current_dir / 'html_logs'
+    input_dir: PosixPath = current_dir
+    output_dir: PosixPath = current_dir
 
     # テンプレートファイルからヘッダー部分を読み込み
     header_data: str = import_head(input_dir)
@@ -19,7 +20,7 @@ def main():
             # ファイル名からチャンネル名を抜き取り
             channel_name: str = cut_out_channel_name(f)
 
-            file_path: Path = work_dir / f
+            file_path: PosixPath = work_dir / f
             # 各ファイルを読み込み
             chat_data += chat_log_merge(file_path, channel_name)
 
@@ -30,7 +31,7 @@ def main():
     result_data = merge_header_and_chatdata(header_data, chat_data)
 
     # 結合データをhtmlファイルとして出力
-    output_path: Path = output_dir / 'output.html'
+    output_path: PosixPath = output_dir / 'output.html'
     with output_path.open(mode='w') as f:
         f.write(str(result_data))
 
@@ -54,14 +55,14 @@ def cut_out_channel_name(file_name: str):
     return channel_name
 
 
-def chat_log_merge(file_path: Path, channel_name: str) -> list:
+def chat_log_merge(file_path: PosixPath, channel_name: str) -> list:
     from bs4 import BeautifulSoup
     import datetime
 
     chat_data = []
 
     # ファイル読み込み
-    with open(file_path, encoding='utf-8') as f:
+    with file_path.open() as f:
         html = f.read()
         soup: BeautifulSoup = BeautifulSoup(html, 'html.parser')
 
@@ -82,9 +83,9 @@ def chat_log_merge(file_path: Path, channel_name: str) -> list:
     return chat_data
 
 
-def import_head(input_dir: Path) -> str:
+def import_head(input_dir: PosixPath) -> str:
     header_file_name = 'template_head.html'
-    header_file_path: Path = input_dir / header_file_name
+    header_file_path: PosixPath = input_dir / header_file_name
 
     with header_file_path.open() as f:
         result_data = f.read()
