@@ -3,7 +3,6 @@ import sys
 from pathlib import Path
 
 
-
 def main():
 
     current_dir: Path = Path().cwd()
@@ -12,15 +11,15 @@ def main():
     output_dir: Path = current_dir
 
     # テンプレートファイルからヘッダー部分を読み込み
-    header_data = import_head(input_dir)
+    header_data: str = import_head(input_dir)
 
     chat_data = []
     for root, dirs, files in os.walk(work_dir):
         for f in files:
             # ファイル名からチャンネル名を抜き取り
-            channel_name = cut_out_channel_name(f)
+            channel_name: str = cut_out_channel_name(f)
 
-            file_path = work_dir / f
+            file_path: Path = work_dir / f
             # 各ファイルを読み込み
             chat_data += chat_log_merge(file_path, channel_name)
 
@@ -31,7 +30,7 @@ def main():
     result_data = merge_header_and_chatdata(header_data, chat_data)
 
     # 結合データをhtmlファイルとして出力
-    output_path:Path = output_dir / 'output.html'
+    output_path: Path = output_dir / 'output.html'
     with output_path.open(mode='w') as f:
         f.write(str(result_data))
 
@@ -55,7 +54,7 @@ def cut_out_channel_name(file_name: str):
     return channel_name
 
 
-def chat_log_merge(file_path: str, channel_name: str) -> list:
+def chat_log_merge(file_path: Path, channel_name: str) -> list:
     from bs4 import BeautifulSoup
     import datetime
 
@@ -64,7 +63,7 @@ def chat_log_merge(file_path: str, channel_name: str) -> list:
     # ファイル読み込み
     with open(file_path, encoding='utf-8') as f:
         html = f.read()
-        soup = BeautifulSoup(html, 'html.parser')
+        soup: BeautifulSoup = BeautifulSoup(html, 'html.parser')
 
     chat_text_list = soup.find_all('div', class_='chatlog__message-group')
     chat_timestamp_list = soup.find_all('span', class_='chatlog__timestamp')
@@ -85,7 +84,7 @@ def chat_log_merge(file_path: str, channel_name: str) -> list:
 
 def import_head(input_dir: Path) -> str:
     header_file_name = 'template_head.html'
-    header_file_path:Path = input_dir / header_file_name
+    header_file_path: Path = input_dir / header_file_name
 
     with header_file_path.open() as f:
         result_data = f.read()
