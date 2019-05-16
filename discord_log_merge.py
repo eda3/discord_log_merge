@@ -42,12 +42,12 @@ def main():
 
 
 def cut_out_channel_name(file_name: str):
-    ''' Discordログのファイル名から、テキストチャンネル名を切り出しする
+    """ Discordログのファイル名から、テキストチャンネル名を切り出しする
     Args:
         file_name(str): Discordログのファイル名
     Returns:
      channel_name(str): チャンネル名
-    '''
+    """
 
     import re
 
