@@ -17,6 +17,11 @@ def main():
     chat_data = []
     for root, dirs, files in os.walk(work_dir):
         for f in files:
+
+            # HTMLファイル以外を除外
+            if 'html' not in f:
+                continue
+
             # ファイル名からチャンネル名を抜き取り
             channel_name: str = cut_out_channel_name(f)
 
@@ -51,6 +56,9 @@ def cut_out_channel_name(file_name: str):
 
     if result:
         channel_name = result.group(1)
+    else:
+        print('ファイル名が一致しません')
+        sys.exit()
 
     return channel_name
 
