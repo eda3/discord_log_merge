@@ -55,7 +55,7 @@ def cut_out_channel_name(file_name: str):
     return channel_name
 
 
-def chat_log_merge(file_path: str, channel_name: str):
+def chat_log_merge(file_path: str, channel_name: str) -> list:
     from bs4 import BeautifulSoup
     import datetime
 
