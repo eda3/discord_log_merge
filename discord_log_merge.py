@@ -5,7 +5,6 @@ from pathlib import PosixPath
 
 
 def main():
-
     current_dir: PosixPath = Path().cwd()
     work_dir = current_dir / 'html_logs'
     input_dir: PosixPath = current_dir
@@ -17,7 +16,6 @@ def main():
     chat_data = []
     for root, dirs, files in os.walk(work_dir):
         for f in files:
-
             # HTMLファイル以外を除外
             if 'html' not in f:
                 continue
