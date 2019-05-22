@@ -1,7 +1,10 @@
+import datetime
 import os
 import sys
 from pathlib import Path
 from pathlib import PosixPath
+
+from bs4 import BeautifulSoup
 
 
 def main():
@@ -62,9 +65,6 @@ def cut_out_channel_name(file_name: str):
 
 
 def chat_log_merge(file_path: PosixPath, channel_name: str) -> list:
-    from bs4 import BeautifulSoup
-    import datetime
-
     chat_data = []
 
     # ファイル読み込み
