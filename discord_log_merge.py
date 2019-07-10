@@ -38,7 +38,7 @@ def main():
 
     # 結合データをhtmlファイルとして出力
     output_path: PosixPath = output_dir / 'output.html'
-    with output_path.open(mode='w') as f:
+    with output_path.open(mode='w', encoding='utf-8') as f:
         f.write(str(result_data))
 
 
@@ -68,7 +68,7 @@ def chat_log_merge(file_path: PosixPath, channel_name: str) -> list:
     chat_data = []
 
     # ファイル読み込み
-    with file_path.open() as f:
+    with file_path.open(encoding='utf-8') as f:
         html = f.read()
         soup: BeautifulSoup = BeautifulSoup(html, 'html.parser')
 
